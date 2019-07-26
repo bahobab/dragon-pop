@@ -4,8 +4,7 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 
-import Generation from './components/Generation';
-import DragonNew from './components/DragonNew';
+import Root from './components/Root';
 
 // import {generationReducer} from './reducers'; import
 // {generationActionCreator} from './action/generation';
@@ -26,8 +25,5 @@ store.subscribe(() => console.log('subcribe store', store.getState()));
 
 render(
     <Provider store={store}>
-    <div>
-        <Generation/>
-        <DragonNew/>
-    </div>
+    <Root/>
 </Provider>, document.querySelector('#root'));
