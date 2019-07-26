@@ -6,7 +6,7 @@ import AuthForm from './AuthForm';
 class Root extends React.Component {
 
     render() {
-        return (true
+        return (false
             ? <Home/>
             : <AuthForm/>);
 
