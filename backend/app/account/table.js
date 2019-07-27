@@ -1,48 +1,51 @@
-const pool = require('../../databasePool');
+const pool = require("../../databasePool");
 
 class AccountTable {
-    static storeAccount({usernameHash, passwordHash}) {
-        return new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO account("usernameHash", "passwordHash")
-            VALUES($1, $2)`, [
-                usernameHash, passwordHash
-            ], (error, response) => {
-                if (error) 
-                    return reject({accountSelect: error});
-                
-                resolve();
-            })
-        })
-    }
+  static storeAccount({ usernameHash, passwordHash }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `INSERT INTO account("usernameHash", "passwordHash")
+            VALUES($1, $2)`,
+        [usernameHash, passwordHash],
+        (error, response) => {
+          if (error) return reject({ accountSelect: error });
 
-    static getAccount(usernameHash) {
+          resolve();
+        }
+      );
+    });
+  }
 
-        return new Promise((resolve, reject) => {
-            pool.query(`SELECT id, "passwordHash", "sessionId"
+  static getAccount({ usernameHash }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT id, "passwordHash", "sessionId"
                 FROM account
-                WHERE "usernameHash" = $1`, [usernameHash], (error, response) => {
-                if (error) 
-                    return reject(error);
-                resolve({account: response.rows[0]})
-            });
-        });
-    }
+                WHERE "usernameHash" = $1`,
+        [usernameHash],
+        (error, response) => {
+          if (error) return reject(error);
+          resolve({ account: response.rows[0] });
+        }
+      );
+    });
+  }
 
-    static updateSessionId({sessionId, usernameHash}) {
-        return new Promise((resolve, reject) => {
-            pool.query(`UPDATE account
+  static updateSessionId({ sessionId, usernameHash }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `UPDATE account
                 SET "sessionId"=$1
-                WHERE "usernameHash" = $2`, [
-                sessionId, usernameHash
-            ], (error, response) => {
+                WHERE "usernameHash" = $2`,
+        [sessionId, usernameHash],
+        (error, response) => {
+          if (error) return reject(error);
 
-                if (error) 
-                    return reject(error);
-                
-                resolve();
-            });
-        })
-    }
+          resolve();
+        }
+      );
+    });
+  }
 }
 
 module.exports = AccountTable;
