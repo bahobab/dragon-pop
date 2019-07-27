@@ -44577,7 +44577,8 @@ var ACCOUNT_ACTION_TYPE = {
   FETCH_STARTED: 'FETCH_ACCOUNT_STARTED',
   FETCH_SUCCEEDED: 'FETCH_ACCOUNT_SUCCEEDED',
   FETCH_FAILED: 'FETCH_ACCOUNT_FAILED',
-  LOGOUT_SUCCESS: 'ACCOUNT_LOGOUT_SUCCEEDED'
+  LOGOUT_SUCCESS: 'ACCOUNT_LOGOUT_SUCCEEDED',
+  LOGIN_FETCH_SUCCEEDED: 'ACCOUNT_LOGIN_SUCCEEDED'
 };
 exports.ACCOUNT_ACTION_TYPE = ACCOUNT_ACTION_TYPE;
 },{}],"config.js":[function(require,module,exports) {
@@ -45164,7 +45165,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.signin = exports.signout = exports.signup = void 0;
+exports.signout = exports.signin = exports.signup = void 0;
 
 var _types = require("./types");
 
@@ -45215,20 +45216,42 @@ var signup = function signup(_ref2) {
     endpoint: 'signup',
     options: {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({
         username: username,
         password: password
       }),
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     },
     SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED
   });
 };
 
 exports.signup = signup;
+
+var signin = function signin(_ref3) {
+  var username = _ref3.username,
+      password = _ref3.password;
+  return fetchFromAccount({
+    endpoint: 'signin',
+    options: {
+      method: 'POST',
+      body: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    },
+    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED
+  });
+};
+
+exports.signin = signin;
 
 var signout = function signout() {
   return fetchFromAccount({
@@ -45242,35 +45265,26 @@ var signout = function signout() {
 // ACCOUNT_ACTION_TYPE.FETCH_STARTED})     return
 // fetch(`${BACKEND.ADDRESS}/account/signup`, {         method: 'POST', headers:
 // {             'Content-Type': 'application/json'         }, body:
-// JSON.stringify({username, password}),             credentials: 'include'
-// })         .then(response => response.json()) .then(json => {
-// console.log(">>json", json);             if (json.type === 'error') {
-// return dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED, message:
-// json.message});             } else {                 return dispatch({
-//       type: ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED, ...json    })             }
-//        })         .catch(error => dispatch({type:
-// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: error.message})) } export const
-// signout = () => dispatch => {     dispatch({type:
+// JSON.stringify({username, password}),             credentials: 'include' })
+//   .then(response => response.json()) .then(json => { console.log(">>json",
+// json);             if (json.type === 'error') { return dispatch({type:
+// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: json.message});          } else {
+//               return dispatch({       type:
+// ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED, ...json    })             }        })
+// .catch(error => dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED, message:
+// error.message})) } export const signout = () => dispatch => { dispatch({type:
 // ACCOUNT_ACTION_TYPE.FETCH_STARTED});     return
 // fetch(`${BACKEND.ADDRESS}/account/signout`, {credentials: 'include'})
 // .then(response => response.json())         .then(json => {             if
 // (json.type = 'error') {                 dispatch({type:
 // ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: json.message});             } else
 // {                 dispatch({                     type:
-// ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS,                     ...json   })    }
-//     })         .catch(error => dispatch({type:
-// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: error.message})); }
+// ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS,                     ...json   })    } })
+//       .catch(error => dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+// message: error.message})); }
 
 
 exports.signout = signout;
-
-var signin = function signin(_ref3) {
-  var username = _ref3.username,
-      password = _ref3.password;
-  return function (dispatch) {};
-};
-
-exports.signin = signin;
 },{"./types":"action/types.js","../config":"config.js"}],"components/Home.js":[function(require,module,exports) {
 "use strict";
 
@@ -45433,7 +45447,14 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "signin", function (e) {
-      console.log('this.state', _this.state);
+      var _this$state2 = _this.state,
+          username = _this$state2.username,
+          password = _this$state2.password;
+      var signin = _this.props.signin;
+      signin({
+        username: username,
+        password: password
+      });
     });
 
     return _this;
@@ -45497,7 +45518,8 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, {
-  signup: _account.signup
+  signup: _account.signup,
+  signin: _account.signin
 })(AuthForm);
 
 exports.default = _default;
@@ -45714,6 +45736,7 @@ var account = function account() {
         status: _fetchStates.default.fetching
       });
 
+    case _types.ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED:
     case _types.ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED:
       console.log('action', action);
       return _objectSpread({}, state, {
@@ -45903,7 +45926,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39595" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34359" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

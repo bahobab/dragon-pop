@@ -12,6 +12,7 @@ const account = (state = DEFAULT_ACCOUT, action) => {
                 ...state,
                 status: fetchStates.fetching
             };
+        case ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED:
         case ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED:
             console.log('action', action);
             return {

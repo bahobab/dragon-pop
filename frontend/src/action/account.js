@@ -24,14 +24,27 @@ export const signup = ({username, password}) => fetchFromAccount({
     endpoint: 'signup',
     options: {
         method: 'POST',
+        body: JSON.stringify({username, password}),
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({username, password}),
-        credentials: 'include'
+        }
     },
     SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED
 });
+
+export const signin = ({username, password}) => fetchFromAccount({
+    endpoint: 'signin',
+    options: {
+        method: 'POST',
+        body: JSON.stringify({username, password}),
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    },
+    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED
+})
 
 export const signout = () => fetchFromAccount({
     endpoint: 'sgnout',
@@ -45,23 +58,20 @@ export const signout = () => fetchFromAccount({
 // ACCOUNT_ACTION_TYPE.FETCH_STARTED})     return
 // fetch(`${BACKEND.ADDRESS}/account/signup`, {         method: 'POST', headers:
 // {             'Content-Type': 'application/json'         }, body:
-// JSON.stringify({username, password}),             credentials: 'include'
-// })         .then(response => response.json()) .then(json => {
-// console.log(">>json", json);             if (json.type === 'error') {
-// return dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED, message:
-// json.message});             } else {                 return dispatch({
-//       type: ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED, ...json    })             }
-//        })         .catch(error => dispatch({type:
-// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: error.message})) } export const
-// signout = () => dispatch => {     dispatch({type:
+// JSON.stringify({username, password}),             credentials: 'include' })
+//   .then(response => response.json()) .then(json => { console.log(">>json",
+// json);             if (json.type === 'error') { return dispatch({type:
+// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: json.message});          } else {
+//               return dispatch({       type:
+// ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED, ...json    })             }        })
+// .catch(error => dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED, message:
+// error.message})) } export const signout = () => dispatch => { dispatch({type:
 // ACCOUNT_ACTION_TYPE.FETCH_STARTED});     return
 // fetch(`${BACKEND.ADDRESS}/account/signout`, {credentials: 'include'})
 // .then(response => response.json())         .then(json => {             if
 // (json.type = 'error') {                 dispatch({type:
 // ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: json.message});             } else
 // {                 dispatch({                     type:
-// ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS,                     ...json   })    }
-//     })         .catch(error => dispatch({type:
-// ACCOUNT_ACTION_TYPE.FETCH_FAILED, message: error.message})); }
-
-export const signin = ({username, password}) => dispatch => {}
+// ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS,                     ...json   })    } })
+//       .catch(error => dispatch({type: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+// message: error.message})); }
