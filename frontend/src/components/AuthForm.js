@@ -1,10 +1,15 @@
 import React from 'react';
-import {Button, FormGroup, FormControl} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {Button, FormGroup, FormControl, Alert} from 'react-bootstrap';
+
+import {signup} from '../action/account';
+import fetchStates from '../reducers/fetchStates';
 
 class AuthForm extends React.Component {
     state = {
         username: '',
-        password: ''
+        password: '',
+        hasError: false
     }
 
     updateInput = (event, inputField) => {
@@ -18,14 +23,29 @@ class AuthForm extends React.Component {
     }
 
     signup = (e) => {
-        console.log('this.state', this.state);
+        const {signup, status} = this.props;
+        const {username, password} = this.state;
+        signup(({username, password}));
+        // if (status === fetchStates.error) {     this.setState({hasError: true}) }
     }
 
     signin = (e) => {
         console.log('this.state', this.state);
     }
 
+    get Error() {
+        const {status, message, signedIn} = this.props.account;
+        if (status === fetchStates.error) {
+
+            return <Alert color="warning">{message}</Alert>
+        }
+    }
+
     render() {
+        const {hasError} = this.state;
+        const {status, message, signedIn} = this.props.account;
+        // const errorMessage = status === fetchStates.error     ? message     : ''
+
         return (
             <div>
                 <h2>Dragon Pop</h2>
@@ -49,10 +69,18 @@ class AuthForm extends React.Component {
                         or
                     </span>
                     <Button onClick={this.signup}>Sign Up</Button>
+                    <div>
+                        {this.Error}
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-export default AuthForm;
+const mapStateToProps = state => {
+    console.log('>>state in mapstatetoprps', state);
+    return {account: state.account}
+}
+
+export default connect(mapStateToProps, {signup})(AuthForm);

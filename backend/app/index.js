@@ -22,7 +22,7 @@ app.use(bodyPasrser.json());
 app.use(bodyPasrser.urlencoded({extended: true}));
 app.use(cookieParser())
 
-app.use(cors({origin: 'http://localhost:1234'}));
+app.use(cors({origin: 'http://localhost:1234', credentials: true}));
 
 app.use("/account", accountRouter);
 app.use("/dragon", dragonRouter);
@@ -50,7 +50,7 @@ module.exports = app;
 // Dragon = require('./dragon'); const fooey = new Dragon({     birthdate: new
 // Date().toLocaleDateString(), nickname: 'fooey' }); const baloo = new Dragon({
 //     nickname: 'baloo', birthdate: new Date().toLocaleDateString(),   traits:
-// [         { traitType: 'backgroundColor',             traitValue: 'green' }
-// ] }); const minar = new Dragon(); setTimeout(() => { const gooby = new
+// [         { traitType: 'backgroundColor',             traitValue: 'green' } ]
+// }); const minar = new Dragon(); setTimeout(() => { const gooby = new
 // Dragon(); console.log('Gooby', gooby); }, 3000); console.log('fooey', fooey);
 // console.log('baloo', baloo); console.log('minar', minar);

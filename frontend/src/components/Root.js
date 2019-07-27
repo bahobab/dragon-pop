@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import Home from './Home';
 import AuthForm from './AuthForm';
@@ -6,11 +7,11 @@ import AuthForm from './AuthForm';
 class Root extends React.Component {
 
     render() {
-        return (false
+        return (this.props.account.signedIn
             ? <Home/>
             : <AuthForm/>);
 
     }
 }
 
-export default Root;
+export default connect(({account}) => ({account}))(Root);
