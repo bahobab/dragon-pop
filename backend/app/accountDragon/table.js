@@ -16,7 +16,7 @@ class AccountDragonTable {
     });
   }
 
-  static getAcountDragon({ accountId }) {
+  static getAcountDragons({ accountId }) {
     return new Promise((resolve, reject) => {
       pool.query(
         `SELECT "dragonId"
@@ -26,7 +26,7 @@ class AccountDragonTable {
         (error, response) => {
           if (error) return reject(error);
 
-          resolve({ accountDragons: response.rows });
+          resolve({ accountDragons: response.rows }); // return array of dragonId's
         }
       );
     });
@@ -39,7 +39,7 @@ class AccountDragonTable {
 //   .then(() => console.log("created an accountDragon"))
 //   .catch(e => console.log(e));
 
-// AccountDragonTable.getAcountDragon({ accountId: 1 })
+// AccountDragonTable.getAcountDragons({ accountId: 1 })
 //   .then(({ accountDragons }) => console.log(accountDragons))
 //   .catch(error => console.log(error));
 

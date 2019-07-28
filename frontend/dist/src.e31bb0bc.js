@@ -45572,6 +45572,14 @@ function (_React$Component) {
   return Home;
 }(_react.default.Component);
 
+fetch("http://localhost:3003/account/dragons", {
+  credentials: "include"
+}).then(function (res) {
+  return res.json();
+}).then(function (json) {
+  return console.log("account dragons", json);
+});
+
 var _default = (0, _reactRedux.connect)(null, {
   signout: _account.signout
 })(Home);

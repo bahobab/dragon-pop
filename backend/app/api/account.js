@@ -1,7 +1,9 @@
 const { Router } = require("express");
 
 const AccountTable = require("../account/table");
-const { hash } = require("../account/helper");
+const AccountDragonTable = require("../accountDragon/table");
+const { hash } = require("../dragon/helper");
+const { getDragonWithTraits } = require("../dragon/helper");
 const { setSession, authenticatedAccount } = require("./helper");
 const Session = require("../account/session");
 
@@ -69,6 +71,26 @@ router.get("/authenticated", (req, res, next) => {
 
   authenticatedAccount({ sessionString })
     .then(({ authenticated }) => res.json({ authenticated }))
+    .catch(error => next(error));
+});
+
+router.get("/dragons", (req, res, next) => {
+  const { sessionString } = req.cookies;
+
+  authenticatedAccount({ sessionString })
+    .then(({ account }) => {
+      return AccountDragonTable.getAcountDragons({
+        accountId: account.id
+      });
+    })
+    .then(({ accountDragons }) => {
+      return Promise.all(
+        accountDragons.map(accountDragon => {
+          return getDragonWithTraits({ dragonId: accountDragon.dragonId });
+        })
+      );
+    })
+    .then(dragons => res.json({ dragons }))
     .catch(error => next(error));
 });
 
