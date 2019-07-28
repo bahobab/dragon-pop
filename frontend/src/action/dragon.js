@@ -1,7 +1,9 @@
-import {DRAGON_ACTION_TYPE, GENERATION_ACTION_TYPE} from './types';
-import {BACKEND} from '../config';
+import { DRAGON_ACTION_TYPE, GENERATION_ACTION_TYPE } from "./types";
+import { BACKEND } from "../config";
 
-export const fetchDragonStart = () => ({type: DRAGON_ACTION_TYPE.FETCH_STARTED});
+export const fetchDragonStart = () => ({
+  type: DRAGON_ACTION_TYPE.FETCH_STARTED
+});
 
 // export const fetchDragon = () => async dispatch => { console.log('KERE!!!!')
 // fetchDragonStart(); try { const res = await
@@ -12,16 +14,27 @@ export const fetchDragonStart = () => ({type: DRAGON_ACTION_TYPE.FETCH_STARTED})
 // };
 
 export const fetchDragon = () => dispatch => {
-    fetchDragonStart();
+  fetchDragonStart();
 
-    return fetch(`${BACKEND.ADDRESS}/dragon/new`)
-        .then(response => response.json())
-        .then(json => {
-            if (json.type === 'error') {
-                return dispatch({type: GENERATION_ACTION_TYPE.FETCH_FAILED, message: json.message});
-            }
-
-            return dispatch({type: DRAGON_ACTION_TYPE.FETCH_SUCCEEDED, dragon: json.dragon});
-        })
-        .catch(error => dispatch({type: DRAGON_ACTION_TYPE.FETCH_FAILED, message: error.message}));
-}
+  return fetch(`${BACKEND.ADDRESS}/dragon/new`, { credentials: "include" })
+    .then(response => response.json())
+    .then(json => {
+      if (json.type === "error") {
+        return dispatch({
+          type: GENERATION_ACTION_TYPE.FETCH_FAILED,
+          message: json.message
+        });
+      }
+      console.log(">>>json.dragon", json.dragon);
+      return dispatch({
+        type: DRAGON_ACTION_TYPE.FETCH_SUCCEEDED,
+        dragon: json.dragon
+      });
+    })
+    .catch(error =>
+      dispatch({
+        type: DRAGON_ACTION_TYPE.FETCH_FAILED,
+        message: error.message
+      })
+    );
+};

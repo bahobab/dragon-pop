@@ -29269,10 +29269,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DEFAULT_STATTE = {
-  dragonId: '',
-  generationId: '',
-  nickname: 'undefined',
-  birthdate: '',
+  dragonId: "",
+  generationId: "",
+  nickname: "undefined",
+  birthdate: "",
   traits: []
 };
 
@@ -29287,6 +29287,7 @@ var dragonReducer = function dragonReducer() {
       });
 
     case _types.DRAGON_ACTION_TYPE.FETCH_SUCCEEDED:
+      console.log(">>action", action);
       return _objectSpread({}, state, {
         status: _fetchStates.default.success
       }, action.dragon);
@@ -29300,8 +29301,6 @@ var dragonReducer = function dragonReducer() {
     default:
       return state;
   }
-
-  ;
 };
 
 var _default = dragonReducer;
@@ -45255,11 +45254,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var propertyMap = {
   backgroundColor: {
-    black: '#263238',
-    white: '#cfd8dc',
-    green: '#a5d6a7',
-    blue: '#0277bd',
-    red: 'fa1200'
+    black: "#263238",
+    white: "#cfd8dc",
+    green: "#a5d6a7",
+    blue: "#0277bd",
+    red: "fa1200"
   },
   build: {
     slender: _assets.slender,
@@ -45279,9 +45278,8 @@ var propertyMap = {
     medium: 140,
     large: 180,
     enormous: 220
-  } // gigantic: 250
-
-};
+  }
+}; // gigantic: 250
 
 var DragonAvatar =
 /*#__PURE__*/
@@ -45305,7 +45303,7 @@ function (_React$Component) {
           traits = _this$props$dragon.traits;
       var dragonTraits = traits.map(function (trait) {
         return trait.traitValue;
-      }).join(','); // if (dragon.status === fetchStates.fetching) {     return (
+      }).join(","); // if (dragon.status === fetchStates.fetching) {     return (
       // <div>...</div>     ); }
 
       if (!dragonId) {
@@ -45385,16 +45383,19 @@ exports.fetchDragonStart = fetchDragonStart;
 var fetchDragon = function fetchDragon() {
   return function (dispatch) {
     fetchDragonStart();
-    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/new")).then(function (response) {
+    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/new"), {
+      credentials: "include"
+    }).then(function (response) {
       return response.json();
     }).then(function (json) {
-      if (json.type === 'error') {
+      if (json.type === "error") {
         return dispatch({
           type: _types.GENERATION_ACTION_TYPE.FETCH_FAILED,
           message: json.message
         });
       }
 
+      console.log(">>>json.dragon", json.dragon);
       return dispatch({
         type: _types.DRAGON_ACTION_TYPE.FETCH_SUCCEEDED,
         dragon: json.dragon
@@ -45453,7 +45454,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var DEFAUT_DRAGON = {
   dragonId: null,
   generationId: null,
-  nickname: 'undefined',
+  nickname: "undefined",
   birthdate: null,
   traits: []
 };

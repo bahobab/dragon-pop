@@ -26,7 +26,7 @@ class DragonTable {
             })
           )
             .then(traitKeys => {
-              resolve(dragonId);
+              resolve({ dragonId }); // return whole dragon object
             })
             .catch(error => reject(error));
         }
