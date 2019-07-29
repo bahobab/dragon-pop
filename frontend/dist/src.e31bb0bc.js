@@ -48723,6 +48723,8 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -48737,13 +48739,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var AccountDragonRow =
 /*#__PURE__*/
@@ -48751,17 +48755,62 @@ function (_React$Component) {
   _inherits(AccountDragonRow, _React$Component);
 
   function AccountDragonRow() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, AccountDragonRow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AccountDragonRow).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(AccountDragonRow)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      nickname: _this.props.dragon.nickname,
+      edit: false
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "toggleEdit", function (event) {
+      _this.setState({
+        edit: !_this.state.edit
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "updateNickname", function (event) {
+      _this.setState({
+        nickname: event.target.value
+      });
+    });
+
+    return _this;
   }
 
   _createClass(AccountDragonRow, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement("br", null), _react.default.createElement(_DragonAvatar.default, {
+      var renderButtons = this.state.edit ? this.SaveButton : this.EditButton;
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement("input", {
+        type: "text",
+        value: this.state.nickname,
+        onChange: this.updateNickname,
+        disabled: !this.state.edit
+      }), _react.default.createElement("br", null), _react.default.createElement(_DragonAvatar.default, {
         dragon: this.props.dragon
-      }));
+      }), renderButtons);
+    }
+  }, {
+    key: "SaveButton",
+    get: function get() {
+      return _react.default.createElement(_reactBootstrap.Button, null, "Save");
+    }
+  }, {
+    key: "EditButton",
+    get: function get() {
+      return _react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.toggleEdit
+      }, "Edit Nickname");
     }
   }]);
 
@@ -48770,7 +48819,7 @@ function (_React$Component) {
 
 var _default = AccountDragonRow;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/AccountDragons.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/AccountDragons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

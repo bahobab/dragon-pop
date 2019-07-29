@@ -40,4 +40,14 @@ router.get("/new", (req, res, next) => {
   //   .catch(error => next(error)); // hands over handling to next middleware
 });
 
+router.put("/update", (req, res, next) => {
+  console.log("/update", req.body);
+
+  const { nickname, dragonId } = req.body;
+
+  DragonTable.updateDragon({ nickname, dragonId })
+    .then(() => res.json({ message: "Dragon nickname successfuly updated" }))
+    .catch(error => next(error));
+});
+
 module.exports = router;
