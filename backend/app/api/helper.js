@@ -27,9 +27,11 @@ const setSession = ({ username, res, sessionId }) => {
   });
 };
 
+// expire: Date.now() + 3600000,
+
 const setSessionCookie = ({ sessionString, res }) => {
   res.cookie("sessionString", sessionString, {
-    expire: Date.now() + 3600000,
+    expire: Date.now(),
     httpOnly: true
     // secure: true // used in production only
   });

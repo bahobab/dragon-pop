@@ -1,16 +1,18 @@
 const express = require("express");
-const bodyPasrser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const bodyPasrser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const cors = require('cors');
+const cors = require("cors");
+
+const SECRET = require("../secrets");
 
 const GenerationEngine = require("./generation/engine");
 const engine = new GenerationEngine();
 
 const dragonRouter = require("./api/dragon");
 const generationRouter = require("./api/generation");
-const accountRouter = require('./api/account');
+const accountRouter = require("./api/account");
 
 const app = express();
 
@@ -19,21 +21,21 @@ app.locals.engine = engine; // to avoid loops
 app.use(helmet());
 
 app.use(bodyPasrser.json());
-app.use(bodyPasrser.urlencoded({extended: true}));
-app.use(cookieParser())
+app.use(bodyPasrser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use(cors({origin: 'http://localhost:1234', credentials: true}));
+app.use(cors({ origin: "http://localhost:1234", credentials: true }));
 
 app.use("/account", accountRouter);
 app.use("/dragon", dragonRouter);
 app.use("/generation", generationRouter);
 
+// app.use(express.session({cookie: { path: '/', httpOnly: true, maxAge: null}, secret:'eeuqram'}));
+
 // this middleware should be place after the routes above
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  res
-    .status(statusCode)
-    .json({type: "error", message: err.message});
+  res.status(statusCode).json({ type: "error", message: err.message });
 });
 
 engine.start();

@@ -29157,7 +29157,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ACCOUNT_ACTION_TYPE = exports.DRAGON_ACTION_TYPE = exports.GENERATION_ACTION_TYPE = void 0;
+exports.ACCOUNT_DRAGONS_ACTION_TYPE = exports.ACCOUNT_ACTION_TYPE = exports.DRAGON_ACTION_TYPE = exports.GENERATION_ACTION_TYPE = void 0;
 var GENERATION_ACTION_TYPE = {
   FETCH_STARTED: "FETCH_GENERATION_STARTED",
   FETCH_SUCCEEDED: "FETCH_GENERATION_SUCCEEDED",
@@ -29172,13 +29172,23 @@ var DRAGON_ACTION_TYPE = {
 exports.DRAGON_ACTION_TYPE = DRAGON_ACTION_TYPE;
 var ACCOUNT_ACTION_TYPE = {
   FETCH_STARTED: "FETCH_ACCOUNT_STARTED",
-  FETCH_SUCCEEDED: "FETCH_ACCOUNT_SUCCEEDED",
-  FETCH_FAILED: "FETCH_ACCOUNT_FAILED",
-  LOGOUT_SUCCESS: "ACCOUNT_LOGOUT_SUCCEEDED",
+  FETCH_FAILED: "FETCH_ACCOUNT_SUCCEEDED",
+  // LOGOUT_FETCH_FAILED: "ACCOUNT_LOGOUT_FAILED",
+  LOGOUT_FETCH_SUCCEEDED: "ACCOUNT_LOGOUT_SUCCEEDED",
+  // LOGIN_FETCH_FAILED: "ACCOUNT_LOGIN_FAILED",
   LOGIN_FETCH_SUCCEEDED: "ACCOUNT_LOGIN_SUCCEEDED",
-  AUTHENTICATED_SUCCESS: "ACCOUNT_AUTHENTICATED_SUCCESS"
+  // SIGNUP_FETCH_FAILED: "ACCOUNT_SIGNUP_FAILED",
+  SIGNUP_FETCH_SUCCEEDED: "ACCOUNT_SIGNUP_SUCCEEDED",
+  // AUTHENTICATED_FETCH_FAILED: "ACCOUNT_AUTHENTICATED_FAILED",
+  AUTHENTICATED_FETCH_SUCCEEDED: "ACCOUNT_AUTHENTICATED_SUCCEEEDED"
 };
 exports.ACCOUNT_ACTION_TYPE = ACCOUNT_ACTION_TYPE;
+var ACCOUNT_DRAGONS_ACTION_TYPE = {
+  FETCH_STARTED: "FETCH_ACCOUNT_DRAGON_STARTED",
+  FETCH_SUCCEEDED: "FETCH_ACCOUNT_DRAGON_SUCCEEDED",
+  FETCH_FAILED: "FETCH_ACCOUNT_DRAGON_FAILED"
+};
+exports.ACCOUNT_DRAGONS_ACTION_TYPE = ACCOUNT_DRAGONS_ACTION_TYPE;
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
@@ -29339,8 +29349,8 @@ var account = function account() {
         status: _fetchStates.default.fetching
       });
 
-    case _types.ACCOUNT_ACTION_TYPE.AUTHENTICATED_SUCCESS:
-      console.log("action", action);
+    case _types.ACCOUNT_ACTION_TYPE.AUTHENTICATED_FETCH_SUCCEEDED:
+      console.log("action authenticated success", action);
       return _objectSpread({}, state, {
         signedIn: action.authenticated,
         message: action.message,
@@ -29348,7 +29358,7 @@ var account = function account() {
       });
 
     case _types.ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED:
-    case _types.ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED:
+    case _types.ACCOUNT_ACTION_TYPE.SIGNUP_FETCH_SUCCEEDED:
       return _objectSpread({}, state, {
         message: action.message,
         signedIn: true,
@@ -29356,13 +29366,17 @@ var account = function account() {
       });
 
     case _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED:
+      // case ACCOUNT_ACTION_TYPE.LOGIN_FETCH_FAILED:
+      // case ACCOUNT_ACTION_TYPE.SIGNUP_FETCH_FAILED:
+      console.log(">>Reducer: fetch failed", action);
       return _objectSpread({}, state, {
         message: action.message,
         status: _fetchStates.default.error,
         signedIn: false
       });
 
-    case _types.ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS:
+    case _types.ACCOUNT_ACTION_TYPE.LOGOUT_FETCH_SUCCEEDED:
+      console.log(">>reducer: signout message", action.message);
       return _objectSpread({}, state, {
         signedIn: false,
         message: action.message,
@@ -29375,6 +29389,63 @@ var account = function account() {
 };
 
 var _default = account;
+exports.default = _default;
+},{"../action/types":"action/types.js","../reducers/fetchStates":"reducers/fetchStates.js"}],"reducers/accountDagons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _types = require("../action/types");
+
+var _fetchStates = _interopRequireDefault(require("../reducers/fetchStates"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var ACCOUNTDRAGONS_DEFAULT = {
+  dragons: []
+};
+
+var accountDragons = function accountDragons() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ACCOUNTDRAGONS_DEFAULT;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_STARTED:
+      console.log(">>reducer accountDragon started", action);
+      return _objectSpread({}, state, {
+        status: _fetchStates.default.fetching
+      });
+
+    case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_SUCCEEDED:
+      console.log(">>reducer accountDragon success", action);
+      return _objectSpread({}, state, {
+        dragons: action.dragons,
+        message: action.message,
+        status: _fetchStates.default.success
+      });
+
+    case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_FAILED:
+      console.log(">>reducer accountDragon failed", action);
+      return _objectSpread({}, state, {
+        message: action.message,
+        status: _fetchStates.default.error
+      });
+
+    default:
+      return state;
+  }
+};
+
+var _default = accountDragons;
 exports.default = _default;
 },{"../action/types":"action/types.js","../reducers/fetchStates":"reducers/fetchStates.js"}],"reducers/index.js":[function(require,module,exports) {
 "use strict";
@@ -29392,16 +29463,19 @@ var _dragon = _interopRequireDefault(require("./dragon"));
 
 var _account = _interopRequireDefault(require("./account"));
 
+var _accountDagons = _interopRequireDefault(require("./accountDagons"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
   generation: _generation.default,
   dragon: _dragon.default,
-  account: _account.default
+  account: _account.default,
+  accountDragons: _accountDagons.default
 });
 var _default = rootReducer;
 exports.default = _default;
-},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./dragon":"reducers/dragon.js","./account":"reducers/account.js"}],"config.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./dragon":"reducers/dragon.js","./account":"reducers/account.js","./accountDagons":"reducers/accountDagons.js"}],"config.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29418,7 +29492,7 @@ exports.BACKEND = BACKEND;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchAuthenticated = exports.signout = exports.signin = exports.signup = void 0;
+exports.fetchAuthenticated = exports.signout = exports.signin = exports.signup = exports.fetchFromAccount = void 0;
 
 var _types = require("./types");
 
@@ -29433,17 +29507,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var fetchFromAccount = function fetchFromAccount(_ref) {
   var endpoint = _ref.endpoint,
       options = _ref.options,
+      FETCH_TYPE = _ref.FETCH_TYPE,
+      FAILURE_TYPE = _ref.FAILURE_TYPE,
       SUCCESS_TYPE = _ref.SUCCESS_TYPE;
   return function (dispatch) {
     dispatch({
-      type: _types.ACCOUNT_ACTION_TYPE.FETCH_STARTED
+      type: FETCH_TYPE
     });
+    console.log(">>oprtions", options);
     return fetch("".concat(_config.BACKEND.ADDRESS, "/account/").concat(endpoint), options).then(function (response) {
       return response.json();
     }).then(function (json) {
+      console.log(">>json", json);
+
       if (json.type === "error") {
         return dispatch({
-          type: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+          type: FAILURE_TYPE,
           message: json.message
         });
       } else {
@@ -29453,12 +29532,14 @@ var fetchFromAccount = function fetchFromAccount(_ref) {
       }
     }).catch(function (error) {
       return dispatch({
-        type: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+        type: FAILURE_TYPE,
         message: error.message
       });
     });
   };
 };
+
+exports.fetchFromAccount = fetchFromAccount;
 
 var signup = function signup(_ref2) {
   var username = _ref2.username,
@@ -29476,7 +29557,9 @@ var signup = function signup(_ref2) {
         "Content-Type": "application/json"
       }
     },
-    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED
+    FETCH_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.SIGNUP_FETCH_SUCCEEDED
   });
 };
 
@@ -29498,6 +29581,8 @@ var signin = function signin(_ref3) {
         "Content-Type": "application/json"
       }
     },
+    FETCH_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
     SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED
   });
 };
@@ -29510,7 +29595,9 @@ var signout = function signout() {
     options: {
       credentials: "include"
     },
-    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS
+    FETCH_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.LOGOUT_FETCH_SUCCEEDED
   });
 };
 
@@ -29522,7 +29609,9 @@ var fetchAuthenticated = function fetchAuthenticated() {
     options: {
       credentials: "include"
     },
-    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.AUTHENTICATED_SUCCESS
+    FETCH_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: _types.ACCOUNT_ACTION_TYPE.AUTHENTICATED_FETCH_SUCCEEDED
   });
 }; // export const signup = ({username, password}) => dispatch => { dispatch({type:
 // ACCOUNT_ACTION_TYPE.FETCH_STARTED})     return
@@ -45507,7 +45596,169 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
 
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../action/dragon":"action/dragon.js","../reducers/fetchStates":"reducers/fetchStates.js"}],"components/Home.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../action/dragon":"action/dragon.js","../reducers/fetchStates":"reducers/fetchStates.js"}],"action/accountDragons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchAccountDragons = void 0;
+
+var _types = require("./types");
+
+var _account = require("./account");
+
+var fetchAccountDragons = function fetchAccountDragons() {
+  return (0, _account.fetchFromAccount)({
+    endpoint: "dragons",
+    options: {
+      credentials: "include"
+    },
+    FETCH_TYPE: _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_SUCCEEDED
+  });
+};
+
+exports.fetchAccountDragons = fetchAccountDragons;
+},{"./types":"action/types.js","./account":"action/account.js"}],"components/AccountDragonRow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var AccountDragonRow =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(AccountDragonRow, _React$Component);
+
+  function AccountDragonRow() {
+    _classCallCheck(this, AccountDragonRow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(AccountDragonRow).apply(this, arguments));
+  }
+
+  _createClass(AccountDragonRow, [{
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement("br", null), _react.default.createElement(_DragonAvatar.default, {
+        dragon: this.props.dragon
+      }));
+    }
+  }]);
+
+  return AccountDragonRow;
+}(_react.default.Component);
+
+var _default = AccountDragonRow;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/AccountDragons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _accountDragons = require("../action/accountDragons");
+
+var _AccountDragonRow = _interopRequireDefault(require("./AccountDragonRow"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var AccountDragons =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(AccountDragons, _React$Component);
+
+  function AccountDragons() {
+    _classCallCheck(this, AccountDragons);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(AccountDragons).apply(this, arguments));
+  }
+
+  _createClass(AccountDragons, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchAccountDragons();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      // if (!this.props.accountDragons) return <div />;
+      var renderDragons = this.props.accountDragons.dragons.map(function (dragon) {
+        return _react.default.createElement("div", {
+          key: dragon.id
+        }, _react.default.createElement(_AccountDragonRow.default, {
+          dragon: dragon
+        }), _react.default.createElement("hr", null));
+      });
+      return _react.default.createElement("div", null, _react.default.createElement("h2", null, "Account Dragons"), renderDragons);
+    }
+  }]);
+
+  return AccountDragons;
+}(_react.default.Component);
+
+var _default = (0, _reactRedux.connect)(function (_ref) {
+  var accountDragons = _ref.accountDragons;
+  return {
+    accountDragons: accountDragons
+  };
+}, {
+  fetchAccountDragons: _accountDragons.fetchAccountDragons
+})(AccountDragons);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../action/accountDragons":"action/accountDragons.js","./AccountDragonRow":"components/AccountDragonRow.js"}],"components/Home.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45524,6 +45775,8 @@ var _reactBootstrap = require("react-bootstrap");
 var _Generation = _interopRequireDefault(require("./Generation"));
 
 var _DragonNew = _interopRequireDefault(require("./DragonNew"));
+
+var _AccountDragons = _interopRequireDefault(require("./AccountDragons"));
 
 var _account = require("../action/account");
 
@@ -45565,27 +45818,24 @@ function (_React$Component) {
       return _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Button, {
         onClick: signout,
         className: "signout-button"
-      }, "Sign out"), _react.default.createElement("h2", null, "Dragon Pop"), _react.default.createElement(_Generation.default, null), _react.default.createElement(_DragonNew.default, null));
+      }, "Sign out"), _react.default.createElement("h2", null, "Dragon Pop"), _react.default.createElement(_Generation.default, null), _react.default.createElement(_DragonNew.default, null), _react.default.createElement(_AccountDragons.default, null));
     }
   }]);
 
   return Home;
 }(_react.default.Component);
+/*********************** debugging code to fetch dragons for a logged in user **************/
+// fetch("http://localhost:3003/account/dragons", { credentials: "include" })
+//   .then(res => res.json())
+//   .then(json => console.log("account dragons", json));
 
-fetch("http://localhost:3003/account/dragons", {
-  credentials: "include"
-}).then(function (res) {
-  return res.json();
-}).then(function (json) {
-  return console.log("account dragons", json);
-});
 
 var _default = (0, _reactRedux.connect)(null, {
   signout: _account.signout
 })(Home);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./Generation":"components/Generation.js","./DragonNew":"components/DragonNew.js","../action/account":"action/account.js"}],"components/AuthForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./Generation":"components/Generation.js","./DragonNew":"components/DragonNew.js","./AccountDragons":"components/AccountDragons.js","../action/account":"action/account.js"}],"components/AuthForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

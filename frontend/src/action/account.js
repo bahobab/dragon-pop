@@ -1,15 +1,23 @@
 import { ACCOUNT_ACTION_TYPE } from "./types";
 import { BACKEND } from "../config";
 
-const fetchFromAccount = ({ endpoint, options, SUCCESS_TYPE }) => dispatch => {
-  dispatch({ type: ACCOUNT_ACTION_TYPE.FETCH_STARTED });
+export const fetchFromAccount = ({
+  endpoint,
+  options,
+  FETCH_TYPE,
+  FAILURE_TYPE,
+  SUCCESS_TYPE
+}) => dispatch => {
+  dispatch({ type: FETCH_TYPE });
+  console.log(">>oprtions", options);
 
   return fetch(`${BACKEND.ADDRESS}/account/${endpoint}`, options)
     .then(response => response.json())
     .then(json => {
+      console.log(">>json", json);
       if (json.type === "error") {
         return dispatch({
-          type: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+          type: FAILURE_TYPE,
           message: json.message
         });
       } else {
@@ -21,7 +29,7 @@ const fetchFromAccount = ({ endpoint, options, SUCCESS_TYPE }) => dispatch => {
     })
     .catch(error =>
       dispatch({
-        type: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+        type: FAILURE_TYPE,
         message: error.message
       })
     );
@@ -37,7 +45,9 @@ export const signup = ({ username, password }) =>
         "Content-Type": "application/json"
       }
     },
-    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.FETCH_SUCCEEDED
+    FETCH_TYPE: ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.SIGNUP_FETCH_SUCCEEDED
   });
 
 export const signin = ({ username, password }) =>
@@ -51,6 +61,8 @@ export const signin = ({ username, password }) =>
         "Content-Type": "application/json"
       }
     },
+    FETCH_TYPE: ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
     SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.LOGIN_FETCH_SUCCEEDED
   });
 
@@ -60,14 +72,18 @@ export const signout = () =>
     options: {
       credentials: "include"
     },
-    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.LOGOUT_SUCCESS
+    FETCH_TYPE: ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.LOGOUT_FETCH_SUCCEEDED
   });
 
 export const fetchAuthenticated = () =>
   fetchFromAccount({
     endpoint: "authenticated",
     options: { credentials: "include" },
-    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.AUTHENTICATED_SUCCESS
+    FETCH_TYPE: ACCOUNT_ACTION_TYPE.FETCH_STARTED,
+    FAILURE_TYPE: ACCOUNT_ACTION_TYPE.FETCH_FAILED,
+    SUCCESS_TYPE: ACCOUNT_ACTION_TYPE.AUTHENTICATED_FETCH_SUCCEEDED
   });
 
 // export const signup = ({username, password}) => dispatch => { dispatch({type:
