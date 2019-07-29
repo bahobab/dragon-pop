@@ -31953,7 +31953,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AccOUNT_INFO_TYPE = exports.ACCOUNT_DRAGONS_ACTION_TYPE = exports.ACCOUNT_ACTION_TYPE = exports.DRAGON_ACTION_TYPE = exports.GENERATION_ACTION_TYPE = void 0;
+exports.PUBLIC_DRAGONS_ACTION_TYPE = exports.AccOUNT_INFO_TYPE = exports.ACCOUNT_DRAGONS_ACTION_TYPE = exports.ACCOUNT_ACTION_TYPE = exports.DRAGON_ACTION_TYPE = exports.GENERATION_ACTION_TYPE = void 0;
 var GENERATION_ACTION_TYPE = {
   FETCH_STARTED: "FETCH_GENERATION_STARTED",
   FETCH_FAILED: "FETCH_GENERATION_FAILED",
@@ -31987,6 +31987,12 @@ var ACCOUNT_DRAGONS_ACTION_TYPE = {
   FETCH_SUCCEEDED: "FETCH_ACCOUNT_DRAGON_SUCCEEDED"
 };
 exports.ACCOUNT_DRAGONS_ACTION_TYPE = ACCOUNT_DRAGONS_ACTION_TYPE;
+var PUBLIC_DRAGONS_ACTION_TYPE = {
+  FETCH_STARTED: "FETCH_PUBLIC_DRAGONS_STARTED",
+  FETCH_FAILED: "FETCH_PUBLIC_DRAGONS_FAILED",
+  FETCH_SUCCEEDED: "FETCH_PUBLIC_DRAGONS_SUCCEEDED"
+};
+exports.PUBLIC_DRAGONS_ACTION_TYPE = PUBLIC_DRAGONS_ACTION_TYPE;
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
@@ -32457,7 +32463,59 @@ var accountIfo = function accountIfo() {
 
 var _default = accountIfo;
 exports.default = _default;
-},{"../action/account":"action/account.js","./fetchStates":"reducers/fetchStates.js","../action/types":"action/types.js"}],"reducers/index.js":[function(require,module,exports) {
+},{"../action/account":"action/account.js","./fetchStates":"reducers/fetchStates.js","../action/types":"action/types.js"}],"reducers/publicDragons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _types = require("../action/types");
+
+var _fetchStates = _interopRequireDefault(require("./fetchStates"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var DEFAULT_PUBLIC_DRAGONS = {
+  dragons: []
+};
+
+var publicDragons = function publicDragons() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_PUBLIC_DRAGONS;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _types.PUBLIC_DRAGONS_ACTION_TYPE.FETCH_STARTED:
+      return _objectSpread({}, state, {
+        status: _fetchStates.default.fetching
+      });
+
+    case _types.PUBLIC_DRAGONS_ACTION_TYPE.FETCH_SUCCEEDED:
+      return _objectSpread({}, state, {
+        status: _fetchStates.default.success
+      }, action.dragons);
+
+    case _types.PUBLIC_DRAGONS_ACTION_TYPE.FETCH_FAILED:
+      return _objectSpread({}, state, {
+        status: _fetchStates.default.error,
+        message: action.message
+      });
+
+    default:
+      return state;
+  }
+};
+
+var _default = publicDragons;
+exports.default = _default;
+},{"../action/types":"action/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32477,6 +32535,8 @@ var _accountDagons = _interopRequireDefault(require("./accountDagons"));
 
 var _accountInfo = _interopRequireDefault(require("./accountInfo"));
 
+var _publicDragons = _interopRequireDefault(require("./publicDragons"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
@@ -32484,11 +32544,12 @@ var rootReducer = (0, _redux.combineReducers)({
   dragon: _dragon.default,
   account: _account.default,
   accountDragons: _accountDagons.default,
-  accountInfo: _accountInfo.default
+  accountInfo: _accountInfo.default,
+  publicDragons: _publicDragons.default
 });
 var _default = rootReducer;
 exports.default = _default;
-},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./dragon":"reducers/dragon.js","./account":"reducers/account.js","./accountDagons":"reducers/accountDagons.js","./accountInfo":"reducers/accountInfo.js"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./dragon":"reducers/dragon.js","./account":"reducers/account.js","./accountDagons":"reducers/accountDagons.js","./accountInfo":"reducers/accountInfo.js","./publicDragons":"reducers/publicDragons.js"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
 /*!
   Copyright (c) 2017 Jed Watson.
