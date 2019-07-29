@@ -41,7 +41,7 @@ const authenticatedAccount = ({ sessionString }) => {
   return new Promise((resolve, reject) => {
     if (!sessionString || !Session.verify(sessionString)) {
       const error = new Error(
-        "Please Sign In<br /> If you don't have an account<br /> go ahead and Sign Up"
+        "Please Sign In. If you don't have an account, go ahead and Sign Up"
       );
       error.statusCode = 400;
       return reject(error);
@@ -52,7 +52,7 @@ const authenticatedAccount = ({ sessionString }) => {
       AccountTable.getAccount({ usernameHash })
         .then(({ account }) => {
           const authenticated = account.sessionId === id;
-          resolve({ account, authenticated });
+          resolve({ account, authenticated, username });
         })
         .catch(error => reject(error));
     }

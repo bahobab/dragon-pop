@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Generation from "./Generation";
 import DragonNew from "./DragonNew";
+import AccountInfo from "./AccountInfo";
 
 import { signout } from "../action/account";
 
@@ -20,8 +21,9 @@ class Home extends React.Component {
         <Generation />
         <DragonNew />
         <hr />
+        <AccountInfo />
+        <hr />
         <Link to="/account-dragons">Account Dragons</Link>
-        {/* <AccountDragons /> */}
       </div>
     );
   }
