@@ -48956,8 +48956,51 @@ require("./index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 var history = (0, _history.createBrowserHistory)();
 var store = (0, _redux.createStore)(_reducers.default, (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // https://github.com/jhen0409/react-native-debugger/issues/280
+
+var RedirectToAccountDragons =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(RedirectToAccountDragons, _React$Component);
+
+  function RedirectToAccountDragons() {
+    _classCallCheck(this, RedirectToAccountDragons);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(RedirectToAccountDragons).apply(this, arguments));
+  }
+
+  _createClass(RedirectToAccountDragons, [{
+    key: "render",
+    value: function render() {
+      return _react.default.createElement(_reactRouterDom.Redirect, {
+        to: {
+          pathname: "/account-dragons"
+        }
+      });
+    }
+  }]);
+
+  return RedirectToAccountDragons;
+}(_react.default.Component);
 
 store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
   // no need for connect because here we have direct access to the store
@@ -48972,6 +49015,9 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
   }), _react.default.createElement(_reactRouterDom.Route, {
     path: "/account-dragons",
     component: _AccountDragons.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/redirect-to-account-dragons",
+    component: RedirectToAccountDragons
   })))), document.querySelector("#root"));
 });
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","history":"../node_modules/history/esm/history.js","./reducers":"reducers/index.js","./action/account":"action/account.js","./components/Root":"components/Root.js","./components/AccountDragons":"components/AccountDragons.js","./index.css":"index.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
