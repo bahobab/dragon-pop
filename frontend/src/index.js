@@ -25,11 +25,9 @@ const store = createStore(
 );
 // https://github.com/jhen0409/react-native-debugger/issues/280
 
-class RedirectToAccountDragons extends React.Component {
-  render() {
-    return <Redirect to={{ pathname: "/account-dragons" }} />;
-  }
-}
+const RedirectToAccountDragons = () => {
+  return <Redirect to={{ pathname: "/account-dragons" }} />;
+};
 
 store.dispatch(fetchAuthenticated()).then(() => {
   // no need for connect because here we have direct access to the store
