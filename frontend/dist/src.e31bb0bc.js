@@ -48959,11 +48959,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var history = (0, _history.createBrowserHistory)();
 var store = (0, _redux.createStore)(_reducers.default, (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // https://github.com/jhen0409/react-native-debugger/issues/280
 
-var RedirectToAccountDragons = function RedirectToAccountDragons() {
-  return _react.default.createElement(_reactRouterDom.Redirect, {
-    to: {
-      pathname: "/account-dragons"
-    }
+var AuthRoute = function AuthRoute(props) {
+  if (!store.getState().account.signedIn) {
+    return _react.default.createElement(_reactRouterDom.Redirect, {
+      to: {
+        pathname: "/"
+      }
+    });
+  }
+
+  var component = props.component,
+      path = props.path;
+  return _react.default.createElement(_reactRouterDom.Route, {
+    path: path,
+    component: component
   });
 };
 
@@ -48977,12 +48986,9 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
     exact: true,
     path: "/",
     component: _Root.default
-  }), _react.default.createElement(_reactRouterDom.Route, {
+  }), _react.default.createElement(AuthRoute, {
     path: "/account-dragons",
     component: _AccountDragons.default
-  }), _react.default.createElement(_reactRouterDom.Route, {
-    path: "/redirect-to-account-dragons",
-    component: RedirectToAccountDragons
   })))), document.querySelector("#root"));
 });
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","history":"../node_modules/history/esm/history.js","./reducers":"reducers/index.js","./action/account":"action/account.js","./components/Root":"components/Root.js","./components/AccountDragons":"components/AccountDragons.js","./index.css":"index.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

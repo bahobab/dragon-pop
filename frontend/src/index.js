@@ -25,8 +25,14 @@ const store = createStore(
 );
 // https://github.com/jhen0409/react-native-debugger/issues/280
 
-const RedirectToAccountDragons = () => {
-  return <Redirect to={{ pathname: "/account-dragons" }} />;
+const AuthRoute = props => {
+  if (!store.getState().account.signedIn) {
+    return <Redirect to={{ pathname: "/" }} />;
+  }
+
+  const { component, path } = props;
+
+  return <Route path={path} component={component} />;
 };
 
 store.dispatch(fetchAuthenticated()).then(() => {
@@ -36,11 +42,7 @@ store.dispatch(fetchAuthenticated()).then(() => {
       <Router history={history}>
         <Switch>
           <Route exact path="/" component={Root} />
-          <Route path="/account-dragons" component={AccountDragons} />
-          <Route
-            path="/redirect-to-account-dragons"
-            component={RedirectToAccountDragons}
-          />
+          <AuthRoute path="/account-dragons" component={AccountDragons} />
         </Switch>
       </Router>
     </Provider>,
