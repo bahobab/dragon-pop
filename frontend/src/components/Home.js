@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import Generation from "./Generation";
 import DragonNew from "./DragonNew";
-import AccountDragons from "./AccountDragons";
 
 import { signout } from "../action/account";
 
@@ -19,7 +19,9 @@ class Home extends React.Component {
         <h2>Dragon Pop</h2>
         <Generation />
         <DragonNew />
-        <AccountDragons />
+        <hr />
+        <Link to="/account-dragons">Account Dragons</Link>
+        {/* <AccountDragons /> */}
       </div>
     );
   }
