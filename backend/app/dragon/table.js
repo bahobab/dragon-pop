@@ -56,29 +56,40 @@ class DragonTable {
   }
 
   static updateDragon({ dragonId, nickname, isPublic, saleValue }) {
-    console.log("Table: update nickname", { nickname, dragonId });
+    const settingsMap = { nickname, isPublic, saleValue };
+    const validQueries = Object.entries(settingsMap).filter(
+      ([settingKey, settingValue]) => {
+        if (settingValue !== undefined) {
+          return new Promise((resolve, reject) => {
+            pool.query(
+              `UPDATE dragon
+            SET "${settingKey}" = $1
+            WHERE id = $2`,
+              [settingValue, dragonId],
+              (error, response) => {
+                if (error) return reject(error);
 
-    return new Promise((resolve, reject) => {
-      pool.query(
-        `UPDATE dragon
-        SET nickname = $1, "isPublic" = $2, "saleValue" = $3
-        WHERE id = $4`,
-        [nickname, isPublic, saleValue, dragonId],
-        (error, response) => {
-          if (error) return reject(error);
-
-          resolve();
+                resolve();
+              }
+            );
+          });
         }
-      );
-    });
+      }
+    );
+
+    return Promise.all(validQueries);
   }
 }
 
 /*********** debugging code ********************/
 /* by visiting http://localhost:3003/gragon/new ***/
 
-// DragonTable.getDragon({ dragonId: 4 })
+// DragonTable.getDragon({ dragonId: 2, nickname: "frolo" })
 //   .then(dragon => console.log(">>>dragon", dragon))
 //   .catch(error => console.log(">>>error", error));
+
+// DragonTable.updateDragon({ dragonId: 2, nickname: "Manlo" })
+//   .then(() => console.log("success"))
+//   .catch(error => console.log(error));
 
 module.exports = DragonTable;
