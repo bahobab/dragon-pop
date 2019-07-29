@@ -7,6 +7,8 @@ import { BACKEND } from "../config";
 class AccountDragonRow extends React.Component {
   state = {
     nickname: this.props.dragon.nickname,
+    isPublic: this.props.dragon.isPublic,
+    saleValue: this.props.dragon.saleValue,
     edit: false
   };
 
@@ -29,7 +31,7 @@ class AccountDragonRow extends React.Component {
 
   save = () => {
     const dragonId = this.props.dragon.dragonId;
-    const nickname = this.state.nickname;
+    const { nickname, isPublic, saleValue } = this.state;
 
     console.log("save nickname method", { nickname, dragonId });
 
@@ -38,7 +40,9 @@ class AccountDragonRow extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         dragonId: this.props.dragon.dragonId,
-        nickname: this.state.nickname
+        nickname,
+        isPublic,
+        saleValue
       })
     })
       .then(response => response.json())
@@ -60,6 +64,14 @@ class AccountDragonRow extends React.Component {
     });
   };
 
+  updateSaleValue = event => {
+    this.setState({ saleValue: event.target.value });
+  };
+
+  updateIsPublic = event => {
+    this.setState({ isPublic: event.target.checked });
+  };
+
   render() {
     const renderButtons = this.state.edit ? this.SaveButton : this.EditButton;
 
@@ -74,7 +86,27 @@ class AccountDragonRow extends React.Component {
         />
         <br />
         <DragonAvatar dragon={this.props.dragon} />
-        {renderButtons}
+        <div>
+          <span>
+            Sale Value:{" "}
+            <input
+              type="number"
+              disabled={!this.state.edit}
+              value={this.state.saleValue}
+              onChange={this.updateSaleValue}
+            />
+          </span>{" "}
+          <span>
+            Public:{" "}
+            <input
+              type="checkbox"
+              disabled={!this.state.edit}
+              checked={this.state.isPublic}
+              onChange={this.updateIsPublic}
+            />
+          </span>
+          {renderButtons}
+        </div>
       </div>
     );
   }

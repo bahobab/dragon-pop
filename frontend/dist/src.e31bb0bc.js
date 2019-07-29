@@ -48926,6 +48926,8 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       nickname: _this.props.dragon.nickname,
+      isPublic: _this.props.dragon.isPublic,
+      saleValue: _this.props.dragon.saleValue,
       edit: false
     });
 
@@ -48939,7 +48941,10 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "save", function () {
       var dragonId = _this.props.dragon.dragonId;
-      var nickname = _this.state.nickname;
+      var _this$state = _this.state,
+          nickname = _this$state.nickname,
+          isPublic = _this$state.isPublic,
+          saleValue = _this$state.saleValue;
       console.log("save nickname method", {
         nickname: nickname,
         dragonId: dragonId
@@ -48951,7 +48956,9 @@ function (_React$Component) {
         },
         body: JSON.stringify({
           dragonId: _this.props.dragon.dragonId,
-          nickname: _this.state.nickname
+          nickname: nickname,
+          isPublic: isPublic,
+          saleValue: saleValue
         })
       }).then(function (response) {
         return response.json();
@@ -48974,6 +48981,18 @@ function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "updateSaleValue", function (event) {
+      _this.setState({
+        saleValue: event.target.value
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "updateIsPublic", function (event) {
+      _this.setState({
+        isPublic: event.target.checked
+      });
+    });
+
     return _this;
   }
 
@@ -48988,7 +49007,17 @@ function (_React$Component) {
         disabled: !this.state.edit
       }), _react.default.createElement("br", null), _react.default.createElement(_DragonAvatar.default, {
         dragon: this.props.dragon
-      }), renderButtons);
+      }), _react.default.createElement("div", null, _react.default.createElement("span", null, "Sale Value:", " ", _react.default.createElement("input", {
+        type: "number",
+        disabled: !this.state.edit,
+        value: this.state.saleValue,
+        onChange: this.updateSaleValue
+      })), " ", _react.default.createElement("span", null, "Public:", " ", _react.default.createElement("input", {
+        type: "checkbox",
+        disabled: !this.state.edit,
+        checked: this.state.isPublic,
+        onChange: this.updateIsPublic
+      })), renderButtons));
     }
   }, {
     key: "SaveButton",
