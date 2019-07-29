@@ -48727,6 +48727,8 @@ var _reactBootstrap = require("react-bootstrap");
 
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
 
+var _config = require("../config");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -48773,8 +48775,41 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "toggleEdit", function (event) {
+      console.log("toggleEdit", _this.state.edit);
+
       _this.setState({
         edit: !_this.state.edit
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "save", function () {
+      var dragonId = _this.props.dragon.dragonId;
+      var nickname = _this.state.nickname;
+      console.log("save nickname method", {
+        nickname: nickname,
+        dragonId: dragonId
+      });
+      fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/update"), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          dragonId: _this.props.dragon.dragonId,
+          nickname: _this.state.nickname
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        console.log("fetch json", json);
+
+        if (json.type === "error") {
+          alert(json.message);
+        } else {
+          _this.toggleEdit();
+        }
+      }).catch(function (error) {
+        return alert(error.message);
       });
     });
 
@@ -48791,7 +48826,7 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var renderButtons = this.state.edit ? this.SaveButton : this.EditButton;
-      return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement("input", {
+      return _react.default.createElement("div", null, _react.default.createElement("input", {
         type: "text",
         value: this.state.nickname,
         onChange: this.updateNickname,
@@ -48803,7 +48838,10 @@ function (_React$Component) {
   }, {
     key: "SaveButton",
     get: function get() {
-      return _react.default.createElement(_reactBootstrap.Button, null, "Save");
+      console.log("save nickname button", this.state.nickname);
+      return _react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.save
+      }, "Save");
     }
   }, {
     key: "EditButton",
@@ -48819,7 +48857,7 @@ function (_React$Component) {
 
 var _default = AccountDragonRow;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/AccountDragons.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../config":"config.js"}],"components/AccountDragons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

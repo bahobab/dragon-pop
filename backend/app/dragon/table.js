@@ -54,6 +54,8 @@ class DragonTable {
   }
 
   static updateDragon({ dragonId, nickname }) {
+    console.log("Table: update nickname", { nickname, dragonId });
+
     return new Promise((resolve, reject) => {
       pool.query(
         `UPDATE dragon
