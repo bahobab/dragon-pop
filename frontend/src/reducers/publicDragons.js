@@ -16,7 +16,7 @@ const publicDragons = (state = DEFAULT_PUBLIC_DRAGONS, action) => {
       return {
         ...state,
         status: fetchStates.success,
-        ...action.dragons
+        dragons: action.dragons
       };
     case PUBLIC_DRAGONS_ACTION_TYPE.FETCH_FAILED:
       return {

@@ -4,16 +4,29 @@ import { Link } from "react-router-dom";
 
 import { fetchPublicDragons } from "../action/publicDragons";
 
+import PublicDragonRow from "./PublicDragonRow";
+
 class PublicDragons extends React.Component {
   componentDidMount() {
     this.props.fetchPublicDragons();
   }
 
   render() {
+    const renderDragons = this.props.publicDragons.dragons.map(dragon => {
+      return (
+        <div>
+          <PublicDragonRow key={dragon.dragonId} dragon={dragon} />
+          <hr />
+        </div>
+      );
+    });
     return (
       <div>
+        <Link to="/" className="signout-button">
+          Home
+        </Link>
         <h3>Public Dragons</h3>
-        <Link to="/">Home</Link>
+        {renderDragons}
       </div>
     );
   }

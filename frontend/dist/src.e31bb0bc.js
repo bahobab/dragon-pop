@@ -32499,8 +32499,9 @@ var publicDragons = function publicDragons() {
 
     case _types.PUBLIC_DRAGONS_ACTION_TYPE.FETCH_SUCCEEDED:
       return _objectSpread({}, state, {
-        status: _fetchStates.default.success
-      }, action.dragons);
+        status: _fetchStates.default.success,
+        dragons: action.dragons
+      });
 
     case _types.PUBLIC_DRAGONS_ACTION_TYPE.FETCH_FAILED:
       return _objectSpread({}, state, {
@@ -49227,7 +49228,64 @@ var fetchPublicDragons = function fetchPublicDragons() {
 };
 
 exports.fetchPublicDragons = fetchPublicDragons;
-},{"../action/types":"action/types.js","../config":"config.js"}],"components/PublicDragons.js":[function(require,module,exports) {
+},{"../action/types":"action/types.js","../config":"config.js"}],"components/PublicDragonRow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var PublicDragonRow =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(PublicDragonRow, _React$Component);
+
+  function PublicDragonRow() {
+    _classCallCheck(this, PublicDragonRow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(PublicDragonRow).apply(this, arguments));
+  }
+
+  _createClass(PublicDragonRow, [{
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement(_DragonAvatar.default, {
+        dragon: this.props.dragon
+      }), _react.default.createElement("div", null, "Sale Value: ", this.props.dragon.saleValue));
+    }
+  }]);
+
+  return PublicDragonRow;
+}(_react.default.Component);
+
+var _default = PublicDragonRow;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/PublicDragons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49242,6 +49300,8 @@ var _reactRedux = require("react-redux");
 var _reactRouterDom = require("react-router-dom");
 
 var _publicDragons = require("../action/publicDragons");
+
+var _PublicDragonRow = _interopRequireDefault(require("./PublicDragonRow"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49282,9 +49342,16 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("h3", null, "Public Dragons"), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/"
-      }, "Home"));
+      var renderDragons = this.props.publicDragons.dragons.map(function (dragon) {
+        return _react.default.createElement("div", null, _react.default.createElement(_PublicDragonRow.default, {
+          key: dragon.dragonId,
+          dragon: dragon
+        }), _react.default.createElement("hr", null));
+      });
+      return _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+        to: "/",
+        className: "signout-button"
+      }, "Home"), _react.default.createElement("h3", null, "Public Dragons"), renderDragons);
     }
   }]);
 
@@ -49298,7 +49365,7 @@ var _default = (0, _reactRedux.connect)(function (publicDragons) {
 })(PublicDragons);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../action/publicDragons":"action/publicDragons.js"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../action/publicDragons":"action/publicDragons.js","./PublicDragonRow":"components/PublicDragonRow.js"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
