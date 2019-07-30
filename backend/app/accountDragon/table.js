@@ -31,6 +31,40 @@ class AccountDragonTable {
       );
     });
   }
+
+  static getdragonAccount({ dragonId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT "accountId"
+        FROM accountDragon
+        WHERE "dragonId" = $1`,
+        [dragonId],
+        (error, response) => {
+          if (error) return reject(error);
+
+          // if (response.rows === undefined) return reject({meesage: 'No rows returned'})
+
+          resolve({ accountId: response.rows[0].accountId });
+        }
+      );
+    });
+  }
+
+  static updateDragonAccount({ dragonId, accountId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `UPDATE accountDragon
+        SET "accountId" = $1
+        WHERE "dragonId" = $2`,
+        [accountId, dragonId],
+        (error, response) => {
+          if (error) return reject(error);
+
+          resolve();
+        }
+      );
+    });
+  }
 }
 
 /******************* debugging code *****************/
@@ -41,6 +75,14 @@ class AccountDragonTable {
 
 // AccountDragonTable.getAcountDragons({ accountId: 1 })
 //   .then(({ accountDragons }) => console.log(accountDragons))
+//   .catch(error => console.log(error));
+
+// AccountDragonTable.getdragonAccount({ dragonId: 2 })
+//   .then(accountId => console.log(accountId))
+//   .catch(error => console.log(error));
+
+// AccountDragonTable.updateDragonAccount({ dragonId: 2, accountId: 1 })
+//   .then(() => console.log("success"))
 //   .catch(error => console.log(error));
 
 module.exports = AccountDragonTable;

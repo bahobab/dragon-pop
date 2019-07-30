@@ -1,5 +1,6 @@
 const { Router } = require("express");
 
+const AccountTable = require("../account/table");
 const DragonTable = require("../dragon/table");
 const AccountDragonTable = require("../accountDragon/table");
 const { authenticatedAccount } = require("./helper");
@@ -57,4 +58,55 @@ router.get("/public-dragons", (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.post("/buy", (req, res, next) => {
+  const { dragonId, saleValue } = req.body;
+  let buyerId;
+
+  DragonTable.getDragon({ dragonId })
+    .then(dragon => {
+      if (dragon.saleValue !== Number(saleValue))
+        throw new Error("Sale value incorrect!");
+
+      if (!dragon.isPublic) throw new Error("Dragon must be public");
+
+      return authenticatedAccount({ sessionString: req.cookies.sessionString });
+    })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) throw new Error("Unauthenticated");
+
+      if (saleValue > account.balance)
+        throw new Error("Sale value exceeds account balance");
+
+      // set the id of the buyer
+      buyerId = account.id;
+
+      // get the id of the buyer from the dragon
+      return AccountDragonTable.getdragonAccount({ dragonId });
+    })
+    .then(({ accountId }) => {
+      // set the seller's id
+      const sellerId = Number(accountId);
+      if (buyerId === sellerId)
+        throw new Error("You cannot buy your own dragon!");
+
+      // buying transaction
+      return Promise.all([
+        AccountTable.updateAccountBalance({
+          accountId: buyerId,
+          value: -saleValue
+        }),
+        AccountTable.updateAccountBalance({
+          accountId: sellerId,
+          value: saleValue
+        }),
+        AccountDragonTable.updateDragonAccount({
+          dragonId,
+          accountId: buyerId
+        }),
+        DragonTable.updateDragon({ dragonId, isPublic: false })
+      ]);
+    })
+    .then(() => res.json({ message: "Success" }))
+    .catch(error => next(error));
+});
 module.exports = router;
