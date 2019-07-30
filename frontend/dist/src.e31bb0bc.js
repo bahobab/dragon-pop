@@ -31947,7 +31947,20 @@ var thunk = createThunkMiddleware();
 thunk.withExtraArgument = createThunkMiddleware;
 var _default = thunk;
 exports.default = _default;
-},{}],"action/types.js":[function(require,module,exports) {
+},{}],"history.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _history = require("history");
+
+var _default = (0, _history.createBrowserHistory)();
+
+exports.default = _default;
+},{"history":"../node_modules/history/esm/history.js"}],"action/types.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49238,7 +49251,13 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
+
+var _config = require("../config");
+
+var _history = _interopRequireDefault(require("../history"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49252,13 +49271,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var PublicDragonRow =
 /*#__PURE__*/
@@ -49266,9 +49287,44 @@ function (_React$Component) {
   _inherits(PublicDragonRow, _React$Component);
 
   function PublicDragonRow() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, PublicDragonRow);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PublicDragonRow).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(PublicDragonRow)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "buy", function () {
+      var _this$props$dragon = _this.props.dragon,
+          dragonId = _this$props$dragon.dragonId,
+          saleValue = _this$props$dragon.saleValue;
+      fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/buy"), {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          dragonId: dragonId,
+          saleValue: saleValue
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        alert(json.message);
+
+        _history.default.push("/");
+      }).catch(function (error) {
+        return alert(error.message);
+      });
+    });
+
+    return _this;
   }
 
   _createClass(PublicDragonRow, [{
@@ -49276,7 +49332,9 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement(_DragonAvatar.default, {
         dragon: this.props.dragon
-      }), _react.default.createElement("div", null, "Sale Value: ", this.props.dragon.saleValue));
+      }), _react.default.createElement("div", null, "Sale Value: ", this.props.dragon.saleValue), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.buy
+      }, "Buy This Dragon"));
     }
   }]);
 
@@ -49285,7 +49343,7 @@ function (_React$Component) {
 
 var _default = PublicDragonRow;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/PublicDragons.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../config":"config.js","../history":"history.js"}],"components/PublicDragons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49453,7 +49511,7 @@ var _reactRedux = require("react-redux");
 
 var _reduxThunk = _interopRequireDefault(require("redux-thunk"));
 
-var _history = require("history");
+var _history = _interopRequireDefault(require("./history"));
 
 var _reducers = _interopRequireDefault(require("./reducers"));
 
@@ -49469,7 +49527,6 @@ require("./index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var history = (0, _history.createBrowserHistory)();
 var store = (0, _redux.createStore)(_reducers.default, (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk.default), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // https://github.com/jhen0409/react-native-debugger/issues/280
 
 var AuthRoute = function AuthRoute(props) {
@@ -49494,7 +49551,7 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
   (0, _reactDom.render)(_react.default.createElement(_reactRedux.Provider, {
     store: store
   }, _react.default.createElement(_reactRouterDom.Router, {
-    history: history
+    history: _history.default
   }, _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
     exact: true,
     path: "/",
@@ -49507,7 +49564,7 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
     component: _PublicDragons.default
   })))), document.querySelector("#root"));
 });
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","history":"../node_modules/history/esm/history.js","./reducers":"reducers/index.js","./action/account":"action/account.js","./components/Root":"components/Root.js","./components/AccountDragons":"components/AccountDragons.js","./components/PublicDragons":"components/PublicDragons.js","./index.css":"index.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","./history":"history.js","./reducers":"reducers/index.js","./action/account":"action/account.js","./components/Root":"components/Root.js","./components/AccountDragons":"components/AccountDragons.js","./components/PublicDragons":"components/PublicDragons.js","./index.css":"index.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

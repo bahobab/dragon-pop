@@ -76,10 +76,6 @@ router.get("/signout", (req, res, next) => {
   })
     .then(() => {
       res.clearCookie("sessionString");
-      console.log(
-        "/signout - clearcookie sessionString",
-        res.cookies("sessionString")
-      );
       res.status(200).json({ message: "Successfully signed out" });
     })
     .catch(error => next(error));
