@@ -49343,8 +49343,9 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var renderDragons = this.props.publicDragons.dragons.map(function (dragon) {
-        return _react.default.createElement("div", null, _react.default.createElement(_PublicDragonRow.default, {
-          key: dragon.dragonId,
+        return _react.default.createElement("div", {
+          key: dragon.dragonId
+        }, _react.default.createElement(_PublicDragonRow.default, {
           dragon: dragon
         }), _react.default.createElement("hr", null));
       });

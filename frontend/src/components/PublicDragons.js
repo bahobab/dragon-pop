@@ -14,8 +14,8 @@ class PublicDragons extends React.Component {
   render() {
     const renderDragons = this.props.publicDragons.dragons.map(dragon => {
       return (
-        <div>
-          <PublicDragonRow key={dragon.dragonId} dragon={dragon} />
+        <div key={dragon.dragonId}>
+          <PublicDragonRow dragon={dragon} />
           <hr />
         </div>
       );
