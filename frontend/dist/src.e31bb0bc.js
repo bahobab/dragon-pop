@@ -49315,6 +49315,16 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(PublicDragonRow)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      displayMatingOptions: false
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "toggleDisplayMatingOptionds", function () {
+      _this.setState({
+        displayMatingOptions: !_this.state.displayMatingOptions
+      });
+    });
+
     _defineProperty(_assertThisInitialized(_this), "buy", function () {
       var _this$props$dragon = _this.props.dragon,
           dragonId = _this$props$dragon.dragonId,
@@ -49348,9 +49358,11 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", null, _react.default.createElement("div", null, this.props.dragon.nickname), _react.default.createElement(_DragonAvatar.default, {
         dragon: this.props.dragon
-      }), _react.default.createElement("div", null, "Sale Value: ", this.props.dragon.saleValue), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.Button, {
+      }), _react.default.createElement("div", null, _react.default.createElement("span", null, "Sale Value: ", this.props.dragon.saleValue), " | ", _react.default.createElement("span", null, "Sire Value: ", this.props.dragon.sireValue)), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.Button, {
         onClick: this.buy
-      }, "Buy This Dragon"));
+      }, "Buy This Dragon"), " ", _react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.toggleDisplayMatingOptionds
+      }, "Sire"), _react.default.createElement("br", null), this.state.displayMatingOptions ? _react.default.createElement("div", null, "Mating Options:") : _react.default.createElement("div", null));
     }
   }]);
 
