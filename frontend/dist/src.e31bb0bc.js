@@ -49005,6 +49005,7 @@ function (_React$Component) {
       nickname: _this.props.dragon.nickname,
       isPublic: _this.props.dragon.isPublic,
       saleValue: _this.props.dragon.saleValue,
+      sireValue: _this.props.dragon.sireValue,
       edit: false
     });
 
@@ -49021,7 +49022,8 @@ function (_React$Component) {
       var _this$state = _this.state,
           nickname = _this$state.nickname,
           isPublic = _this$state.isPublic,
-          saleValue = _this$state.saleValue;
+          saleValue = _this$state.saleValue,
+          sireValue = _this$state.sireValue;
       console.log("save nickname method", {
         nickname: nickname,
         dragonId: dragonId
@@ -49035,7 +49037,8 @@ function (_React$Component) {
           dragonId: _this.props.dragon.dragonId,
           nickname: nickname,
           isPublic: isPublic,
-          saleValue: saleValue
+          saleValue: saleValue,
+          sireValue: sireValue
         })
       }).then(function (response) {
         return response.json();
@@ -49070,6 +49073,12 @@ function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "updateSireValue", function (event) {
+      return _this.setState({
+        sireValue: event.target.value
+      });
+    });
+
     return _this;
   }
 
@@ -49088,13 +49097,20 @@ function (_React$Component) {
         type: "number",
         disabled: !this.state.edit,
         value: this.state.saleValue,
-        onChange: this.updateSaleValue
+        onChange: this.updateSaleValue,
+        className: "account-dragon-row-input"
+      })), " ", _react.default.createElement("span", null, "Sire Value:", " ", _react.default.createElement("input", {
+        type: "number",
+        disabled: !this.state.edit,
+        value: this.state.sireValue,
+        onChange: this.updateSireValue,
+        className: "account-dragon-row-input"
       })), " ", _react.default.createElement("span", null, "Public:", " ", _react.default.createElement("input", {
         type: "checkbox",
         disabled: !this.state.edit,
         checked: this.state.isPublic,
         onChange: this.updateIsPublic
-      })), renderButtons));
+      })), _react.default.createElement("br", null), renderButtons));
     }
   }, {
     key: "SaveButton",
@@ -49109,7 +49125,7 @@ function (_React$Component) {
     get: function get() {
       return _react.default.createElement(_reactBootstrap.Button, {
         onClick: this.toggleEdit
-      }, "Edit Nickname");
+      }, "Edit Dragon");
     }
   }]);
 
@@ -49318,7 +49334,7 @@ function (_React$Component) {
       }).then(function (json) {
         alert(json.message);
 
-        _history.default.push("/");
+        _history.default.push("/account-dragons");
       }).catch(function (error) {
         return alert(error.message);
       });

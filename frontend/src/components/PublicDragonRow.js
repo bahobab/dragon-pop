@@ -18,7 +18,7 @@ class PublicDragonRow extends React.Component {
       .then(response => response.json())
       .then(json => {
         alert(json.message);
-        history.push("/");
+        history.push("/account-dragons");
       })
       .catch(error => alert(error.message));
   };

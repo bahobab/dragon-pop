@@ -6,6 +6,7 @@ const DEFAULT_PROPERTIES = {
   nickname: "undefined",
   isPublic: false,
   saleValue: 0,
+  sireValue: 0,
   generationId: undefined,
 
   get birthdate() {
@@ -35,6 +36,7 @@ class Dragon {
     traits,
     generationId,
     isPublic,
+    sireValue,
     saleValue
   } = {}) {
     this.dragonId = dragonId || DEFAULT_PROPERTIES.dragonId;
@@ -44,6 +46,7 @@ class Dragon {
     this.generationId = generationId || DEFAULT_PROPERTIES.generationId;
     this.isPublic = isPublic || DEFAULT_PROPERTIES.isPublic;
     this.saleValue = saleValue || DEFAULT_PROPERTIES.saleValue;
+    this.sireValue = sireValue || DEFAULT_PROPERTIES.saleValue;
   }
 
   buildDragon() {}

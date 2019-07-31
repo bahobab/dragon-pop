@@ -51,14 +51,16 @@ class Breeder {
   }
 }
 
-const foofoo = new Dragon();
-const tonton = new Dragon();
+/************* Debugging code ***********************/
 
-console.log("foofoo", foofoo);
-console.log("tonton", tonton);
+// const foofoo = new Dragon();
+// const tonton = new Dragon();
 
-const tonfoo = Breeder.breedDragon({ matron: foofoo, patron: tonton });
+// console.log("foofoo", foofoo);
+// console.log("tonton", tonton);
 
-console.log("tonfoo", tonfoo);
+// const tonfoo = Breeder.breedDragon({ matron: foofoo, patron: tonton });
+
+// console.log("tonfoo", tonfoo);
 
 module.exports = Breeder;

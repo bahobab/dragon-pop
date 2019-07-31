@@ -9,6 +9,7 @@ class AccountDragonRow extends React.Component {
     nickname: this.props.dragon.nickname,
     isPublic: this.props.dragon.isPublic,
     saleValue: this.props.dragon.saleValue,
+    sireValue: this.props.dragon.sireValue,
     edit: false
   };
 
@@ -26,12 +27,12 @@ class AccountDragonRow extends React.Component {
   }
 
   get EditButton() {
-    return <Button onClick={this.toggleEdit}>Edit Nickname</Button>;
+    return <Button onClick={this.toggleEdit}>Edit Dragon</Button>;
   }
 
   save = () => {
     const dragonId = this.props.dragon.dragonId;
-    const { nickname, isPublic, saleValue } = this.state;
+    const { nickname, isPublic, saleValue, sireValue } = this.state;
 
     console.log("save nickname method", { nickname, dragonId });
 
@@ -42,7 +43,8 @@ class AccountDragonRow extends React.Component {
         dragonId: this.props.dragon.dragonId,
         nickname,
         isPublic,
-        saleValue
+        saleValue,
+        sireValue
       })
     })
       .then(response => response.json())
@@ -72,6 +74,8 @@ class AccountDragonRow extends React.Component {
     this.setState({ isPublic: event.target.checked });
   };
 
+  updateSireValue = event => this.setState({ sireValue: event.target.value });
+
   render() {
     const renderButtons = this.state.edit ? this.SaveButton : this.EditButton;
 
@@ -94,6 +98,17 @@ class AccountDragonRow extends React.Component {
               disabled={!this.state.edit}
               value={this.state.saleValue}
               onChange={this.updateSaleValue}
+              className="account-dragon-row-input"
+            />
+          </span>{" "}
+          <span>
+            Sire Value:{" "}
+            <input
+              type="number"
+              disabled={!this.state.edit}
+              value={this.state.sireValue}
+              onChange={this.updateSireValue}
+              className="account-dragon-row-input"
             />
           </span>{" "}
           <span>
@@ -105,6 +120,7 @@ class AccountDragonRow extends React.Component {
               onChange={this.updateIsPublic}
             />
           </span>
+          <br />
           {renderButtons}
         </div>
       </div>
