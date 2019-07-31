@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { fetchPublicDragons } from "../action/publicDragons";
+import { fetchAccountDragons } from "../action/accountDragons";
 
 import PublicDragonRow from "./PublicDragonRow";
 
 class PublicDragons extends React.Component {
   componentDidMount() {
     this.props.fetchPublicDragons();
+    this.props.fetchAccountDragons();
   }
 
   render() {
@@ -34,5 +36,5 @@ class PublicDragons extends React.Component {
 
 export default connect(
   publicDragons => publicDragons,
-  { fetchPublicDragons }
+  { fetchPublicDragons, fetchAccountDragons }
 )(PublicDragons);
