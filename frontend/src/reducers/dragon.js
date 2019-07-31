@@ -17,7 +17,6 @@ const dragonReducer = (state = DEFAULT_STATTE, action) => {
         status: fetchStates.fetching
       };
     case DRAGON_ACTION_TYPE.FETCH_SUCCEEDED:
-      console.log(">>action", action);
       return {
         ...state,
         status: fetchStates.success,

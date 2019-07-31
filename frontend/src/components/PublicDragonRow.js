@@ -46,7 +46,11 @@ class PublicDragonRow extends React.Component {
         <Button onClick={this.buy}>Buy This Dragon</Button>{" "}
         <Button onClick={this.toggleDisplayMatingOptionds}>Sire</Button>
         <br />
-        {this.state.displayMatingOptions ? <MatingOptions /> : <div />}
+        {this.state.displayMatingOptions ? (
+          <MatingOptions patronDragonId={this.props.dragon.dragonId} />
+        ) : (
+          <div />
+        )}
       </div>
     );
   }

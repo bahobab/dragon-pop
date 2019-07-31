@@ -32114,7 +32114,6 @@ var dragonReducer = function dragonReducer() {
       });
 
     case _types.DRAGON_ACTION_TYPE.FETCH_SUCCEEDED:
-      console.log(">>action", action);
       return _objectSpread({}, state, {
         status: _fetchStates.default.success
       }, action.dragon);
@@ -32167,7 +32166,6 @@ var account = function account() {
       });
 
     case _types.ACCOUNT_ACTION_TYPE.AUTHENTICATED_FETCH_SUCCEEDED:
-      console.log("action authenticated success", action);
       return _objectSpread({}, state, {
         signedIn: action.authenticated,
         message: action.message,
@@ -32183,9 +32181,6 @@ var account = function account() {
       });
 
     case _types.ACCOUNT_ACTION_TYPE.FETCH_FAILED:
-      // case ACCOUNT_ACTION_TYPE.LOGIN_FETCH_FAILED:
-      // case ACCOUNT_ACTION_TYPE.SIGNUP_FETCH_FAILED:
-      console.log(">>Reducer: fetch failed", action);
       return _objectSpread({}, state, {
         message: action.message,
         status: _fetchStates.default.error,
@@ -32193,7 +32188,6 @@ var account = function account() {
       });
 
     case _types.ACCOUNT_ACTION_TYPE.LOGOUT_FETCH_SUCCEEDED:
-      console.log(">>reducer: signout message", action.message);
       return _objectSpread({}, state, {
         signedIn: false,
         message: action.message,
@@ -32237,13 +32231,11 @@ var accountDragons = function accountDragons() {
 
   switch (action.type) {
     case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_STARTED:
-      console.log(">>reducer accountDragon started", action);
       return _objectSpread({}, state, {
         status: _fetchStates.default.fetching
       });
 
     case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_SUCCEEDED:
-      console.log(">>reducer accountDragon success", action);
       return _objectSpread({}, state, {
         dragons: action.dragons,
         message: action.message,
@@ -32251,7 +32243,6 @@ var accountDragons = function accountDragons() {
       });
 
     case _types.ACCOUNT_DRAGONS_ACTION_TYPE.FETCH_FAILED:
-      console.log(">>reducer accountDragon failed", action);
       return _objectSpread({}, state, {
         message: action.message,
         status: _fetchStates.default.error
@@ -32303,12 +32294,9 @@ var fetchFromAccount = function fetchFromAccount(_ref) {
     dispatch({
       type: FETCH_TYPE
     });
-    console.log(">>oprtions", options);
     return fetch("".concat(_config.BACKEND.ADDRESS, "/account/").concat(endpoint), options).then(function (response) {
       return response.json();
     }).then(function (json) {
-      console.log(">>json", json);
-
       if (json.type === "error") {
         return dispatch({
           type: FAILURE_TYPE,
@@ -48086,7 +48074,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('this.props', this.props);
       var _this$props$generatio = this.props.generation,
           generationId = _this$props$generatio.generationId,
           expiration = _this$props$generatio.expiration,
@@ -48393,7 +48380,6 @@ var fetchDragon = function fetchDragon() {
         });
       }
 
-      console.log(">>>json.dragon", json.dragon);
       return dispatch({
         type: _types.DRAGON_ACTION_TYPE.FETCH_SUCCEEDED,
         dragon: json.dragon
@@ -48843,7 +48829,6 @@ function (_React$Component) {
 }(_react.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  console.log(">>state in mapstatetoprps", state);
   return {
     account: state.account
   };
@@ -49010,8 +48995,6 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "toggleEdit", function (event) {
-      console.log("toggleEdit", _this.state.edit);
-
       _this.setState({
         edit: !_this.state.edit
       });
@@ -49024,10 +49007,6 @@ function (_React$Component) {
           isPublic = _this$state.isPublic,
           saleValue = _this$state.saleValue,
           sireValue = _this$state.sireValue;
-      console.log("save nickname method", {
-        nickname: nickname,
-        dragonId: dragonId
-      });
       fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/update"), {
         method: "PUT",
         headers: {
@@ -49043,8 +49022,6 @@ function (_React$Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (json) {
-        console.log("fetch json", json);
-
         if (json.type === "error") {
           alert(json.message);
         } else {
@@ -49115,7 +49092,6 @@ function (_React$Component) {
   }, {
     key: "SaveButton",
     get: function get() {
-      console.log("save nickname button", this.state.nickname);
       return _react.default.createElement(_reactBootstrap.Button, {
         onClick: this.save
       }, "Save");
@@ -49271,6 +49247,10 @@ var _reactRedux = require("react-redux");
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _config = require("../config");
+
+var _history = _interopRequireDefault(require("../history"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -49283,13 +49263,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var MattingOptions =
 /*#__PURE__*/
@@ -49297,21 +49279,63 @@ function (_React$Component) {
   _inherits(MattingOptions, _React$Component);
 
   function MattingOptions() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, MattingOptions);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MattingOptions).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(MattingOptions)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "mate", function (_ref) {
+      var matronDragonId = _ref.matronDragonId,
+          patronDragonId = _ref.patronDragonId;
+      return function () {
+        fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/mate"), {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({
+            matronDragonId: matronDragonId,
+            patronDragonId: patronDragonId
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          alert(json.message);
+          if (json.type !== error) _history.default.push("/account-dragons");
+        }).catch(function (error) {
+          return alert(error.message);
+        });
+      };
+    });
+
+    return _this;
   }
 
   _createClass(MattingOptions, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return _react.default.createElement("div", null, _react.default.createElement("h4", null, "Pick one of your dragons to mate with:"), this.props.accountDragons.dragons.map(function (dragon) {
         var dragonId = dragon.dragonId,
             generationId = dragon.generationId,
             nickname = dragon.nickname;
         return _react.default.createElement("span", {
           key: dragonId
-        }, _react.default.createElement(_reactBootstrap.Button, null, "G", generationId, ".I", dragonId, ". ", nickname), " ");
+        }, _react.default.createElement(_reactBootstrap.Button, {
+          onClick: _this2.mate({
+            matronDragonId: dragonId,
+            patronDragonId: _this2.props.patronDragonId
+          })
+        }, "G", generationId, ".I", dragonId, ". ", nickname), " ");
       }));
     }
   }]);
@@ -49319,15 +49343,15 @@ function (_React$Component) {
   return MattingOptions;
 }(_react.default.Component);
 
-var _default = (0, _reactRedux.connect)(function (_ref) {
-  var accountDragons = _ref.accountDragons;
+var _default = (0, _reactRedux.connect)(function (_ref2) {
+  var accountDragons = _ref2.accountDragons;
   return {
     accountDragons: accountDragons
   };
 })(MattingOptions);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js"}],"components/PublicDragonRow.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/es/index.js","../config":"config.js","../history":"history.js"}],"components/PublicDragonRow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49434,7 +49458,9 @@ function (_React$Component) {
         onClick: this.buy
       }, "Buy This Dragon"), " ", _react.default.createElement(_reactBootstrap.Button, {
         onClick: this.toggleDisplayMatingOptionds
-      }, "Sire"), _react.default.createElement("br", null), this.state.displayMatingOptions ? _react.default.createElement(_MatingOptions.default, null) : _react.default.createElement("div", null));
+      }, "Sire"), _react.default.createElement("br", null), this.state.displayMatingOptions ? _react.default.createElement(_MatingOptions.default, {
+        patronDragonId: this.props.dragon.dragonId
+      }) : _react.default.createElement("div", null));
     }
   }]);
 

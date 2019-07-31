@@ -82,10 +82,7 @@ class AuthForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  console.log(">>state in mapstatetoprps", state);
-  return { account: state.account };
-};
+const mapStateToProps = state => ({ account: state.account });
 
 export default connect(
   mapStateToProps,

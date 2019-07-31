@@ -25,7 +25,6 @@ export const fetchDragon = () => dispatch => {
           message: json.message
         });
       }
-      console.log(">>>json.dragon", json.dragon);
       return dispatch({
         type: DRAGON_ACTION_TYPE.FETCH_SUCCEEDED,
         dragon: json.dragon

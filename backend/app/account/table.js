@@ -3,7 +3,6 @@ const { STARTING_BALANCE } = require("../config");
 
 class AccountTable {
   static storeAccount({ usernameHash, passwordHash }) {
-    console.log(">>AccoutTable.Store account", { usernameHash, passwordHash });
     return new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO account("usernameHash", "passwordHash", balance)
@@ -42,7 +41,6 @@ class AccountTable {
         [sessionId, usernameHash],
         (error, response) => {
           if (error) return reject(error);
-          console.log("/signout table>update sessionId to null");
           resolve();
         }
       );

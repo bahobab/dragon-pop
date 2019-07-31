@@ -14,15 +14,12 @@ class AccountDragonRow extends React.Component {
   };
 
   toggleEdit = event => {
-    console.log("toggleEdit", this.state.edit);
-
     this.setState({
       edit: !this.state.edit
     });
   };
 
   get SaveButton() {
-    console.log("save nickname button", this.state.nickname);
     return <Button onClick={this.save}>Save</Button>;
   }
 
@@ -33,8 +30,6 @@ class AccountDragonRow extends React.Component {
   save = () => {
     const dragonId = this.props.dragon.dragonId;
     const { nickname, isPublic, saleValue, sireValue } = this.state;
-
-    console.log("save nickname method", { nickname, dragonId });
 
     fetch(`${BACKEND.ADDRESS}/dragon/update`, {
       method: "PUT",
@@ -49,8 +44,6 @@ class AccountDragonRow extends React.Component {
     })
       .then(response => response.json())
       .then(json => {
-        console.log("fetch json", json);
-
         if (json.type === "error") {
           alert(json.message);
         } else {

@@ -44,8 +44,6 @@ router.get("/new", (req, res, next) => {
 });
 
 router.put("/update", (req, res, next) => {
-  console.log("/update", req.body);
-
   const { nickname, dragonId, isPublic, saleValue, sireValue } = req.body;
 
   DragonTable.updateDragon({
@@ -174,10 +172,9 @@ router.post("/mate", (req, res, next) => {
           dragonId,
           accountId: matronAccountId
         })
-      ])
-        .then(() => res.json({ message: "Success!!" }))
-        .catch(error => next(error));
-    });
+      ]).then(() => res.json({ message: "Success!!" }));
+    })
+    .catch(error => next(error));
 });
 
 module.exports = router;
