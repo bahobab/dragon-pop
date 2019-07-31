@@ -42,7 +42,8 @@ class AccountDragonTable {
         (error, response) => {
           if (error) return reject(error);
 
-          // if (response.rows === undefined) return reject({meesage: 'No rows returned'})
+          if (response.rows[0] === undefined)
+            throw new Error("No rows returned");
 
           resolve({ accountId: response.rows[0].accountId });
         }
